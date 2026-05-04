@@ -1,0 +1,8 @@
+{
+  "name": "@intellideploy/shared-config",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "lint": "echo 'no lint for config package'"
+  }
+}
