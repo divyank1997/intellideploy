@@ -5,6 +5,7 @@ import jwt from '@fastify/jwt';
 import dbPlugin from './plugins/db';
 import { authRoutes } from './routes/auth';
 import { projectRoutes } from './routes/projects';
+import { deploymentRoutes } from './routes/deployments';
 
 const app = Fastify({ logger: { level: 'info' } });
 
@@ -14,6 +15,7 @@ const start = async () => {
   await app.register(dbPlugin);
   await app.register(authRoutes);
   await app.register(projectRoutes);
+  await app.register(deploymentRoutes);
 
   app.get('/health', async () => ({ status: 'ok', service: 'api-service' }));
 
