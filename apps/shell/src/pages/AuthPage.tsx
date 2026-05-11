@@ -4,7 +4,7 @@ import type { AuthState } from '../App';
 const API = 'http://localhost:4001';
 
 interface Props {
-  onAuth: (state: AuthState) => void;
+  onAuth: (user: AuthState['user'], accessToken: string, refreshToken: string) => void;
 }
 
 export default function AuthPage({ onAuth }: Props) {
@@ -26,12 +26,12 @@ export default function AuthPage({ onAuth }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      const data = await res.json() as { success: boolean; data?: { token: string; user: { name: string; email: string } }; error?: { message: string } };
+      const data = await res.json() as { success: boolean; data?: { accessToken: string; refreshToken: string; user: { id: string; name: string; email: string } }; error?: { message: string } };
       if (!data.success || !data.data) {
         setError(data.error?.message ?? 'Authentication failed');
         return;
       }
-      onAuth({ token: data.data.token, user: data.data.user });
+      onAuth(data.data.user, data.data.accessToken, data.data.refreshToken);
     } catch {
       setError('Cannot connect to server — is the API service running?');
     } finally {
